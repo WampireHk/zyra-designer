@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zyra Designer Studio - Where Style Meets Stitch</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.3);
+            display: none;
+        }
+
+        .logo-image.show {
+            display: block;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tagline {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: -5px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .cart-btn {
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #FF6B6B;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 0;
+        }
+
+        /* Banner Section */
+        .banner-section {
+            margin-bottom: 2rem;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .banner-section.show {
+            display: block;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info {
+            font-size: 1rem;
+            color: #764ba2;
+            font-weight: bold;
+        }
+
+        /* Product Grid */
+        .products-section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            color: #333;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .product-card:hover::before {
+            left: 100%;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            object-fit: cover;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .category-filter {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .category-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .category-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            border-radius: 25px;
+            background: white;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .category-btn:hover {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .form-group input[type="file"] {
+            padding: 8px;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            background: #f8f9fa;
+        }
+
+        .form-group select {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: white;
+        }
+
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .image-preview {
+            margin-top: 10px;
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .product-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .product-description {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FF6B6B;
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            right: -400px;
+            top: 0;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-content {
+            padding: 1.5rem;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-price {
+            color: #FF6B6B;
+            font-weight: bold;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0.5rem 0;
+        }
+
+        .qty-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .remove-item {
+            background: #FF6B6B;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .cart-total {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 2px solid #eee;
+            text-align: center;
+        }
+
+        .total-amount {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #4ECDC4, #44A08D);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .admin-panel h2 {
+            color: #333;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .admin-sections {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .admin-section {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+        }
+
+        .admin-section h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .admin-form {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input, .form-group textarea {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .admin-product-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .admin-product-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-product-info {
+            flex: 1;
+        }
+
+        .admin-product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .edit-btn, .delete-btn {
+            padding: 5px 15px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .edit-btn {
+            background: #4ECDC4;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #FF6B6B;
+            color: white;
+        }
+
+        /* Banner/Logo Preview Styles */
+        .banner-preview, .logo-preview {
+            margin-top: 10px;
+            max-width: 300px;
+            max-height: 200px;
+            border-radius: 10px;
+            display: none;
+            border: 2px solid #ddd;
+        }
+
+        .current-settings {
+            background: #e8f4f8;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #4ECDC4;
+        }
+
+        .current-settings h4 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .current-settings p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-buttons {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .banner-image {
+                height: 200px;
+            }
+
+            .logo-section {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1500;
+            display: none;
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
+        /* Login Modal */
+        .login-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            z-index: 2500;
+            display: none;
+            min-width: 300px;
+        }
+
+        .login-modal.show {
+            display: block;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img id="header-logo" class="logo-image" alt="Zyra Logo">
+                    <div>
+                        <div class="logo">ZYRA</div>
+                        <div class="tagline">🌟 Where Style Meets Stitch 🪡</div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary cart-btn" onclick="toggleCart()">
+                        🛒 Cart (<span id="cart-count">0</span>)
+                    </button>
+                    <button class="btn btn-primary" onclick="showLogin()">Admin Login</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Banner Section -->
+            <section class="banner-section" id="banner-section">
+                <img id="main-banner" class="banner-image" alt="Zyra Banner">
+            </section>
+
+            <!-- Hero Section -->
+            <section class="hero">
+                <h1>Zyra Designer Studio</h1>
+                <p>Designer Wear | Tailoring | Ready to Wear | Materials</p>
+                <div class="contact-info">📱 Mob: 9847941980</div>
+            </section>
+
+            <!-- Products Section -->
+            <section class="products-section">
+                <h2>Our Collections</h2>
+                
+                <!-- Category Filter -->
+                <div class="category-filter">
+                    <h3>Shop by Category</h3>
+                    <div class="category-buttons" id="category-buttons">
+                        <button class="category-btn active" onclick="filterByCategory('all')">All Products</button>
+                        <button class="category-btn" onclick="filterByCategory('Designer Wear')">Designer Wear</button>
+                        <button class="category-btn" onclick="filterByCategory('Ready to Wear')">Ready to Wear</button>
+                        <button class="category-btn" onclick="filterByCategory('Materials')">Materials</button>
+                        <button class="category-btn" onclick="filterByCategory('Tailoring')">Tailoring</button>
+                        <button class="category-btn" onclick="filterByCategory('Bridal Collection')">Bridal Collection</button>
+                        <button class="category-btn" onclick="filterByCategory('Casual Wear')">Casual Wear</button>
+                        <button class="category-btn" onclick="filterByCategory('Party Wear')">Party Wear</button>
+                        <button class="category-btn" onclick="filterByCategory('Fabrics')">Fabrics</button>
+                    </div>
+                </div>
+                
+                <div class="product-grid" id="product-grid">
+                    <!-- Products will be loaded here dynamically -->
+                </div>
+            </section>
+
+            <!-- Admin Panel -->
+            <section class="admin-panel" id="admin-panel">
+                <h2>🔧 Admin Panel - Website Management</h2>
+                
+                <div class="admin-sections">
+                    <!-- Website Settings Section -->
+                    <div class="admin-section">
+                        <h3>🎨 Website Branding</h3>
+                        
+                        <div class="current-settings">
+                            <h4>Current Settings:</h4>
+                            <p id="current-logo-status">Logo: Not uploaded</p>
+                            <p id="current-banner-status">Banner: Not uploaded</p>
+                        </div>
+
+                        <form class="admin-form" id="branding-form">
+                            <div class="form-group">
+                                <label for="website-logo">Website Logo (JPG/PNG):</label>
+                                <input type="file" id="website-logo" accept=".jpg,.jpeg,.png" onchange="previewLogo(event)">
+                                <img id="logo-preview" class="logo-preview" alt="Logo Preview">
+                                <small style="color: #666; display: block; margin-top: 5px;">
+                                    📷 Upload your logo (recommended: 200x200px, max 2MB)
+                                </small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="website-banner">Website Banner (JPG/PNG):</label>
+                                <input type="file" id="website-banner" accept=".jpg,.jpeg,.png" onchange="previewBanner(event)">
+                                <img id="banner-preview" class="banner-preview" alt="Banner Preview">
+                                <small style="color: #666; display: block; margin-top: 5px;">
+                                    📷 Upload banner image (recommended: 1200x300px, max 5MB)
+                                </small>
+                            </div>
+                        </form>
+
+                        <div class="admin-actions">
+                            <button class="btn btn-primary" onclick="updateBranding()">Update Branding</button>
+                            <button class="btn btn-secondary" onclick="removeLogo()">Remove Logo</button>
+                            <button class="btn btn-secondary" onclick="removeBanner()">Remove Banner</button>
+                        </div>
+                    </div>
+
+                    <!-- Product Management Section -->
+                    <div class="admin-section">
+                        <h3>📦 Product Management</h3>
+                        
+                        <form class="admin-form" id="admin-form">
+                            <div class="form-group">
+                                <label for="product-name">Product Name:</label>
+                                <input type="text" id="product-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-description">Description:</label>
+                                <textarea id="product-description" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-price">Price (₹):</label>
+                                <input type="number" id="product-price" min="0" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-category">Category:</label>
+                                <select id="product-category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="Designer Wear">Designer Wear</option>
+                                    <option value="Ready to Wear">Ready to Wear</option>
+                                    <option value="Materials">Materials</option>
+                                    <option value="Tailoring">Tailoring</option>
+                                    <option value="Bridal Collection">Bridal Collection</option>
+                                    <option value="Casual Wear">Casual Wear</option>
+                                    <option value="Party Wear">Party Wear</option>
+                                    <option value="Fabrics">Fabrics</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-image">Product Image (JPG/PNG):</label>
+                                <input type="file" id="product-image" accept=".jpg,.jpeg,.png" onchange="previewProductImage(event)">
+                                <img id="product-image-preview" class="image-preview" alt="Image Preview">
+                                <small style="color: #666; display: block; margin-top: 5px;">
+                                    📷 Upload a high-quality image of your product (max 5MB)
+                                </small>
+                            </div>
+                        </form>
+
+                        <div class="admin-actions">
+                            <button class="btn btn-primary" onclick="addProduct()">Add Product</button>
+                            <button class="btn btn-secondary" onclick="updateProduct()">Update Product</button>
+                            <button class="btn btn-secondary" onclick="clearProductForm()">Clear Form</button>
+                        </div>
+
+                        <div class="admin-product-list" id="admin-product-list">
+                            <!-- Admin product list will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>🛒 Shopping Cart</h3>
+            <button class="btn btn-secondary" onclick="toggleCart()">✕</button>
+        </div>
+        <div class="cart-content">
+            <div id="cart-items">
+                <p style="text-align: center; color: #666; margin-top: 2rem;">Your cart is empty</p>
+            </div>
+            <div class="cart-total" id="cart-total" style="display: none;">
+                <div class="total-amount">Total: ₹<span id="total-amount">0</span></div>
+                <button class="checkout-btn" onclick="checkout()">
+                    🛒 Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="login-modal" id="login-modal">
+        <button class="close-modal" onclick="hideLogin()">✕</button>
+        <div class="modal-header">
+            <h3>Admin Login</h3>
+        </div>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="admin-username">Username:</label>
+                <input type="text" id="admin-username" required>
+            </div>
+            <div class="form-group">
+                <label for="admin-password">Password:</label>
+                <input type="password" id="admin-password" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                Login
+            </button>
+        </form>
+    </div>
+
+    <script>
+        // Global variables
+        let products = [
+            {
+                id: 1,
+                name: "Elegant Silk Saree",
+                description: "Beautiful handwoven silk saree with intricate embroidery",
+                price: 8999,
+                category: "Designer Wear",
+                image: null
+            },
+            {
+                id: 2,
+                name: "Cotton Churidar Set",
+                description: "Comfortable cotton churidar with dupatta",
+                price: 2499,
+                category: "Ready to Wear",
+                image: null
+            },
+            {
+                id: 3,
+                name: "Premium Fabric",
+                description: "High-quality fabric for custom tailoring",
+                price: 899,
+                category: "Materials",
+                image: null
+            },
+            {
+                id: 4,
+                name: "Wedding Lehenga",
+                description: "Stunning bridal lehenga with heavy work",
+                price: 25999,
+                category: "Bridal Collection",
+                image: null
+            },
+            {
+                id: 5,
+                name: "Casual Kurti",
+                description: "Trendy kurti perfect for everyday wear",
+                price: 1299,
+                category: "Casual Wear",
+                image: null
+            },
+            {
+                id: 6,
+                name: "Custom Tailoring",
+                description: "Professional tailoring service for perfect fit",
+                price: 1999,
+                category: "Tailoring",
+                image: null
+            },
+            {
+                id: 7,
+                name: "Party Dress",
+                description: "Glamorous party wear for special occasions",
+                price: 4999,
+                category: "Party Wear",
+                image: null
+            },
+            {
+                id: 8,
+                name: "Silk Fabric Roll",
+                description: "Premium silk fabric by the meter",
+                price: 1299,
+                category: "Fabrics",
+                image: null
+            }
+        ];
+
+        let cart = [];
+        let editingProductId = null;
+        let isAdminLoggedIn = false;
+        let currentFilter = 'all';
+        
+        // Website branding storage
+        let websiteLogo = null;
+        let websiteBanner = null;
+
+        // Initialize the page
+        function init() {
+            loadProducts();
+            updateCartDisplay();
+            loadBranding();
+        }
+
+        // Load website branding
+        function loadBranding() {
+            // Update current status
+            updateBrandingStatus();
+            
+            // Show logo in header if exists
+            if (websiteLogo) {
+                const headerLogo = document.getElementById('header-logo');
+                headerLogo.src = websiteLogo;
+                headerLogo.classList.add('show');
+            }
+            
+            // Show banner if exists
+            if (websiteBanner) {
+                const bannerSection = document.getElementById('banner-section');
+                const mainBanner = document.getElementById('main-banner');
+                mainBanner.src = websiteBanner;
+                bannerSection.classList.add('show');
+            }
+        }
+
+        // Update branding status display
+        function updateBrandingStatus() {
+            const logoStatus = document.getElementById('current-logo-status');
+            const bannerStatus = document.getElementById('current-banner-status');
+            
+            logoStatus.textContent = websiteLogo ? 'Logo: ✅ Uploaded and active' : 'Logo: ❌ Not uploaded';
+            bannerStatus.textContent = websiteBanner ? 'Banner: ✅ Uploaded and active' : 'Banner: ❌ Not uploaded';
+        }
+
+        // Preview logo
+        function previewLogo(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('logo-preview');
+            
+            if (file) {
+                // Check file size (2MB limit for logo)
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('Logo file size too large! Please choose an image under 2MB.');
+                    event.target.value = '';
+                    preview.style.display = 'none';
+                    return;
+                }
+                
+                // Check file type
+                if (!file.type.includes('jpeg') && !file.type.includes('jpg') && !file.type.includes('png')) {
+                    alert('Please upload only JPG/JPEG/PNG images for logo.');
+                    event.target.value = '';
+                    preview.style.display = 'none';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        // Preview banner
+        function previewBanner(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('banner-preview');
+            
+            if (file) {
+                // Check file size (5MB limit for banner)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('Banner file size too large! Please choose an image under 5MB.');
+                    event.target.value = '';
+                    preview.style.display = 'none';
+                    return;
+                }
+                
+                // Check file type
+                if (!file.type.includes('jpeg') && !file.type.includes('jpg') && !file.type.includes('png')) {
+                    alert('Please upload only JPG/JPEG/PNG images for banner.');
+                    event.target.value = '';
+                    preview.style.display = 'none';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        // Update website branding
+        function updateBranding() {
+            if (!isAdminLoggedIn) {
+                alert('Please login as admin first!');
+                return;
+            }
+
+            const logoFile = document.getElementById('website-logo').files[0];
+            const bannerFile = document.getElementById('website-banner').files[0];
+            
+            let updatesCount = 0;
+            let totalUpdates = 0;
+            
+            if (logoFile) totalUpdates++;
+            if (bannerFile) totalUpdates++;
+            
+            if (totalUpdates === 0) {
+                alert('Please select at least one image to update!');
+                return;
+            }
+
+            // Handle logo update
+            if (logoFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    websiteLogo = e.target.result;
+                    updatesCount++;
+                    
+                    // Update header logo
+                    const headerLogo = document.getElementById('header-logo');
+                    headerLogo.src = websiteLogo;
+                    headerLogo.classList.add('show');
+                    
+                    if (updatesCount === totalUpdates) {
+                        finalizeBrandingUpdate();
+                    }
+                };
+                reader.readAsDataURL(logoFile);
+            }
+
+            // Handle banner update
+            if (bannerFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    websiteBanner = e.target.result;
+                    updatesCount++;
+                    
+                    // Update banner
+                    const bannerSection = document.getElementById('banner-section');
+                    const mainBanner = document.getElementById('main-banner');
+                    mainBanner.src = websiteBanner;
+                    bannerSection.classList.add('show');
+                    
+                    if (updatesCount === totalUpdates) {
+                        finalizeBrandingUpdate();
+                    }
+                };
+                reader.readAsDataURL(bannerFile);
+            }
+        }
+
+        // Finalize branding update
+        function finalizeBrandingUpdate() {
+            updateBrandingStatus();
+            clearBrandingForm();
+            alert('✅ Website branding updated successfully!');
+        }
+
+        // Remove logo
+        function removeLogo() {
+            if (!isAdminLoggedIn) {
+                alert('Please login as admin first!');
+                return;
+            }
+
+            if (confirm('Are you sure you want to remove the website logo?')) {
+                websiteLogo = null;
+                const headerLogo = document.getElementById('header-logo');
+                headerLogo.classList.remove('show');
+                updateBrandingStatus();
+                alert('Logo removed successfully!');
+            }
+        }
+
+        // Remove banner
+        function removeBanner() {
+            if (!isAdminLoggedIn) {
+                alert('Please login as admin first!');
+                return;
+            }
+
+            if (confirm('Are you sure you want to remove the website banner?')) {
+                websiteBanner = null;
+                const bannerSection = document.getElementById('banner-section');
+                bannerSection.classList.remove('show');
+                updateBrandingStatus();
+                alert('Banner removed successfully!');
+            }
+        }
+
+        // Clear branding form
+        function clearBrandingForm() {
+            document.getElementById('branding-form').reset();
+            document.getElementById('logo-preview').style.display = 'none';
+            document.getElementById('banner-preview').style.display = 'none';
+        }
+
+        // Load and display products
+        function loadProducts() {
+            const productGrid = document.getElementById('product-grid');
+            productGrid.innerHTML = '';
+
+            // Filter products based on current filter
+            const filteredProducts = currentFilter === 'all' ? products : products.filter(product => product.category === currentFilter);
+
+            filteredProducts.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <div class="product-image">
+                        ${product.image ? `<img src="${product.image}" alt="${product.name}">` : getProductIcon(product.category)}
+                    </div>
+                    <div class="product-name">${product.name}</div>
+                    <div class="product-description">${product.description}</div>
+                    <div class="product-price">₹${product.price.toLocaleString('en-IN')}</div>
+                    <button class="add-to-cart" onclick="addToCart(${product.id})">
+                        Add to Cart 🛒
+                    </button>
+                `;
+                productGrid.appendChild(productCard);
+            });
+
+            // Show message if no products in category
+            if (filteredProducts.length === 0) {
+                productGrid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: #666;">
+                        <h3>No products found in this category</h3>
+                        <p>Please try another category or check back later!</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Filter products by category
+        function filterByCategory(category) {
+            currentFilter = category;
+            
+            // Update active button
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            loadProducts();
+        }
+
+        // Get appropriate icon for product category
+        function getProductIcon(category) {
+            const icons = {
+                'Designer Wear': '👗 Designer Collection',
+                'Ready to Wear': '👚 Ready to Wear',
+                'Materials': '🧵 Premium Materials',
+                'Tailoring': '✂️ Tailoring Services',
+                'Bridal Collection': '👰 Bridal Collection',
+                'Casual Wear': '👕 Casual Wear',
+                'Party Wear': '🎉 Party Wear',
+                'Fabrics': '🧶 Premium Fabrics'
+            };
+            return icons[category] || '🛍️ Fashion Item';
+        }
+
+        // Preview product image
+        function previewProductImage(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('product-image-preview');
+            
+            if (file) {
+                // Check file size (5MB limit)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File size too large! Please choose an image under 5MB.');
+                    event.target.value = '';
+                    preview.style.display = 'none';
+                    return;
+                }
+                
+                // Check file type
+                if (!file.type.includes('jpeg') && !file.type.includes('jpg') && !file.type.includes('png')) {
+                    alert('Please upload only JPG/JPEG/PNG images.');
+                    event.target.value = '';
+                    preview.style.display = 'none';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        // Add product to cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    quantity: 1
+                });
+            }
+
+            updateCartDisplay();
+            
+            // Show success animation
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'Added! ✓';
+            button.style.background = 'linear-gradient(45deg, #4ECDC4, #44A08D)';
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = 'linear-gradient(45deg, #FF6B6B, #4ECDC4)';
+            }, 1000);
+        }
+
+        // Update cart display
+        function updateCartDisplay() {
+            const cartCount = document.getElementById('cart-count');
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            const totalAmount = document.getElementById('total-amount');
+
+            // Update cart count
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+
+            // Update cart items
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="text-align: center; color: #666; margin-top: 2rem;">Your cart is empty</p>';
+                cartTotal.style.display = 'none';
+            } else {
+                cartItems.innerHTML = '';
+                let total = 0;
+
+                cart.forEach((item, index) => {
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'cart-item';
+                    cartItem.innerHTML = `
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">₹${item.price.toLocaleString('en-IN')}</div>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                                <span>Qty: ${item.quantity}</span>
+                                <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                            </div>
+                        </div>
+                        <button class="remove-item" onclick="removeFromCart(${index})">Remove</button>
+                    `;
+                    cartItems.appendChild(cartItem);
+                    total += item.price * item.quantity;
+                });
+
+                totalAmount.textContent = total.toLocaleString('en-IN');
+                cartTotal.style.display = 'block';
+            }
+        }
+
+        // Update item quantity
+        function updateQuantity(index, change) {
+            if (cart[index]) {
+                cart[index].quantity += change;
+                if (cart[index].quantity <= 0) {
+                    cart.splice(index, 1);
+                }
+                updateCartDisplay();
+            }
+        }
+
+        // Remove item from cart
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartDisplay();
+        }
+
+        // Toggle cart sidebar
+        function toggleCart() {
+            const cartSidebar = document.getElementById('cart-sidebar');
+            const overlay = document.getElementById('overlay');
+            
+            cartSidebar.classList.toggle('open');
+            overlay.classList.toggle('show');
+        }
+
+        // Checkout function
+        function checkout() {
+            if (cart.length === 0) return;
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            alert(`🛒 Checkout Summary:\n\nTotal Amount: ₹${total.toLocaleString('en-IN')}\n\nFor payment and order processing, please contact:\n📱 9847941980\n\nThank you for shopping with Zyra Designer Studio!`);
+        }
+
+        // Admin login functions
+        function showLogin() {
+            document.getElementById('login-modal').classList.add('show');
+            document.getElementById('overlay').classList.add('show');
+        }
+
+        function hideLogin() {
+            document.getElementById('login-modal').classList.remove('show');
+            document.getElementById('overlay').classList.remove('show');
+        }
+
+        // Handle login form submission
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('admin-username').value;
+            const password = document.getElementById('admin-password').value;
+
+            // Simple authentication (in real app, use proper authentication)
+            if (username === 'admin' && password === 'zyra2024') {
+                isAdminLoggedIn = true;
+                hideLogin();
+                showAdminPanel();
+                document.getElementById('login-form').reset();
+            } else {
+                alert('Invalid credentials! Use username: admin, password: zyra2024');
+            }
+        });
+
+        // Show admin panel
+        function showAdminPanel() {
+            document.getElementById('admin-panel').style.display = 'block';
+            loadAdminProducts();
+            updateBrandingStatus();
+            document.querySelector('.main-content').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Load products in admin panel
+        function loadAdminProducts() {
+            const adminProductList = document.getElementById('admin-product-list');
+            adminProductList.innerHTML = '';
+
+            products.forEach(product => {
+                const productItem = document.createElement('div');
+                productItem.className = 'admin-product-item';
+                productItem.innerHTML = `
+                    <div class="admin-product-info">
+                        <strong>${product.name}</strong><br>
+                        <small>${product.description}</small><br>
+                        <span style="color: #FF6B6B; font-weight: bold;">₹${product.price.toLocaleString('en-IN')}</span>
+                        <span style="color: #666; margin-left: 10px;">(${product.category})</span>
+                    </div>
+                    <div class="admin-product-actions">
+                        <button class="edit-btn" onclick="editProduct(${product.id})">Edit</button>
+                        <button class="delete-btn" onclick="deleteProduct(${product.id})">Delete</button>
+                    </div>
+                `;
+                adminProductList.appendChild(productItem);
+            });
+        }
+
+        // Add new product
+        function addProduct() {
+            if (!isAdminLoggedIn) {
+                alert('Please login as admin first!');
+                return;
+            }
+
+            const name = document.getElementById('product-name').value.trim();
+            const description = document.getElementById('product-description').value.trim();
+            const price = parseFloat(document.getElementById('product-price').value);
+            const category = document.getElementById('product-category').value;
+            const imageFile = document.getElementById('product-image').files[0];
+
+            if (!name || !description || !price || !category) {
+                alert('Please fill all required fields!');
+                return;
+            }
+
+            const newProduct = {
+                id: Date.now(), // Simple ID generation
+                name,
+                description,
+                price,
+                category,
+                image: null
+            };
+
+            // Handle image if uploaded
+            if (imageFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    newProduct.image = e.target.result;
+                    products.push(newProduct);
+                    loadProducts();
+                    loadAdminProducts();
+                    clearProductForm();
+                    alert('Product with image added successfully!');
+                };
+                reader.readAsDataURL(imageFile);
+            } else {
+                products.push(newProduct);
+                loadProducts();
+                loadAdminProducts();
+                clearProductForm();
+                alert('Product added successfully!');
+            }
+        }
+
+        // Edit product
+        function editProduct(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            document.getElementById('product-name').value = product.name;
+            document.getElementById('product-description').value = product.description;
+            document.getElementById('product-price').value = product.price;
+            document.getElementById('product-category').value = product.category;
+
+            // Show current image if exists
+            const preview = document.getElementById('product-image-preview');
+            if (product.image) {
+                preview.src = product.image;
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+            }
+
+            editingProductId = productId;
+            
+            // Scroll to form
+            document.getElementById('admin-form').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Update product
+        function updateProduct() {
+            if (!isAdminLoggedIn) {
+                alert('Please login as admin first!');
+                return;
+            }
+
+            if (!editingProductId) {
+                alert('Please select a product to edit first!');
+                return;
+            }
+
+            const name = document.getElementById('product-name').value.trim();
+            const description = document.getElementById('product-description').value.trim();
+            const price = parseFloat(document.getElementById('product-price').value);
+            const category = document.getElementById('product-category').value;
+            const imageFile = document.getElementById('product-image').files[0];
+
+            if (!name || !description || !price || !category) {
+                alert('Please fill all required fields!');
+                return;
+            }
+
+            const productIndex = products.findIndex(p => p.id === editingProductId);
+            if (productIndex !== -1) {
+                const updatedProduct = {
+                    id: editingProductId,
+                    name,
+                    description,
+                    price,
+                    category,
+                    image: products[productIndex].image // Keep existing image by default
+                };
+
+                // Handle new image if uploaded
+                if (imageFile) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        updatedProduct.image = e.target.result;
+                        products[productIndex] = updatedProduct;
+                        loadProducts();
+                        loadAdminProducts();
+                        clearProductForm();
+                        alert('Product updated with new image successfully!');
+                    };
+                    reader.readAsDataURL(imageFile);
+                } else {
+                    products[productIndex] = updatedProduct;
+                    loadProducts();
+                    loadAdminProducts();
+                    clearProductForm();
+                    alert('Product updated successfully!');
+                }
+            }
+        }
+
+        // Delete product
+        function deleteProduct(productId) {
+            if (!isAdminLoggedIn) {
+                alert('Please login as admin first!');
+                return;
+            }
+
+            if (confirm('Are you sure you want to delete this product?')) {
+                products = products.filter(p => p.id !== productId);
+                loadProducts();
+                loadAdminProducts();
+                alert('Product deleted successfully!');
+            }
+        }
+
+        // Clear product form
+        function clearProductForm() {
+            document.getElementById('admin-form').reset();
+            document.getElementById('product-image-preview').style.display = 'none';
+            editingProductId = null;
+        }
+
+        // Close overlay when clicked
+        document.getElementById('overlay').addEventListener('click', function() {
+            toggleCart();
+            hideLogin();
+        });
+
+        // Initialize the page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
