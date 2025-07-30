@@ -1396,8 +1396,10 @@
         // Handle login form submission
         document.getElementById('login-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            const username = document.getElementById('admin-username').value;
-            const password = document.getElementById('admin-password').value;
+            const username = document.getElementById('admin-username').value.trim();
+            const password = document.getElementById('admin-password').value.trim();
+
+            console.log('Login attempt:', { username, password }); // Debug log
 
             // Simple authentication (in real app, use proper authentication)
             if (username === 'admin' && password === 'zyra2024') {
@@ -1405,8 +1407,9 @@
                 hideLogin();
                 showAdminPanel();
                 document.getElementById('login-form').reset();
+                alert('✅ Login successful! Welcome to Admin Panel.');
             } else {
-                alert('Invalid credentials! Use username: admin, password: zyra2024');
+                alert('❌ Invalid credentials!\n\nPlease use:\nUsername: admin\nPassword: zyra2024');
             }
         });
 
@@ -1599,5 +1602,6 @@
             hideLogin();
         });
 
-        // Initialize the page when DOM is loaded
-        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
